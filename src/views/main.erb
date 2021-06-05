@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="/css/main.css" />
+    <% @stylesheets.each do |href| %>
+      <link rel="stylesheet" type="text/css" href="<%= href %>" />
+    <% end %>
+  </head>
+  <body>
+    <div id="main">
+      <%= @content %>
+    </div>
+    <% @scripts.each do |src| %>
+      <script src="<%= src %>"></script>
+    <% end %>
+  </body>
+</html>
