@@ -1,12 +1,10 @@
 class Page
-  attr_reader :src, :stylesheets, :scripts
+  attr_reader :src
   attr_accessor :content
 
-  def initialize(src, content: '', stylesheets: [], scripts: [])
-    @stylesheets = stylesheets
-    @scripts = scripts
-    @content = content
+  def initialize(src, content: '')
     @src = src
+    @content = content
   end
 
   def render
