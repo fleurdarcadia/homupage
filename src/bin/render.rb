@@ -1,5 +1,6 @@
 require 'erb'
 
+require_relative '../../lib/authoring/authoring.rb'
 require_relative '../../lib/pages/pages.rb'
 
 
@@ -9,7 +10,9 @@ def main
 
   composer = Composer.new(outer: main_erb, inner: about_erb)
 
-  puts composer.render
+  writer = Writer.new('./about.html')
+
+  writer.write(composer.render)
 end
 
 
