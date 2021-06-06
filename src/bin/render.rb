@@ -1,34 +1,18 @@
 require 'erb'
 
+require_relative '../../lib/pages/page.rb'
+require_relative '../../lib/pages/composer.rb'
 
-class Page
-  MAIN_ERB = 'src/views/main.erb'
 
-  attr_reader :src, :stylesheets, :scripts
-
-  def initialize(src, stylesheets: [], scripts: [])
-    @src = src
-    @stylesheets = stylesheets
-    @scripts = scripts
-    @content = nil
-  end
-
-  def load
-    @content = File.read(@src)
-    self
-  end
-
-  def render
-    container = ERB.new(File.read(MAIN_ERB))
-
-    container.result(binding)
-  end
-end
-
+MAIN_ERB = 'src/views/main.erb'
 
 def main
-  test_page = Page.new('src/views/test.html')
-  puts test_page.load.render
+  main_erb = Page.new('src/views/main.erb')
+  test_erb = Page.new('src/views/test.html')
+
+  composer = Composer.new(outer: main_erb, inner: test_erb)
+
+  puts composer.render
 end
 
 
