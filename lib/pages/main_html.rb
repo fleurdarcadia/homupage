@@ -10,8 +10,4 @@ class MainHtml < Page
 
     super(MAIN_ERB)
   end
-
-  def render
-    super
-  end
 end
