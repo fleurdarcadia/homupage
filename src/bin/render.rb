@@ -12,7 +12,13 @@ def main
 
   writer = Writer.new('./about.html')
 
-  writer.write(composer.render)
+  puts composer.render
+
+  directories = DirWalker.new('src')
+
+  directories.walk do |file|
+    puts "Found file #{file}"
+  end
 end
 
 
