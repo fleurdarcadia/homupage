@@ -4,20 +4,28 @@ require_relative '../../lib/authoring/authoring.rb'
 require_relative '../../lib/pages/pages.rb'
 
 
+DIST_DIR = 'dist'
+BASE_HTML_DIR = 'src/views/html'
+ERB_REGEX = /.*\.erb/
+
 def main
   main_erb = MainHtml.new
-  about_erb = Page.new('src/views/html/about.html.erb')
 
-  composer = Composer.new(outer: main_erb, inner: about_erb)
-
-  writer = Writer.new('./about.html')
-
-  puts composer.render
-
-  directories = DirWalker.new('src')
+  directories = DirWalker.new(BASE_HTML_DIR, ERB_REGEX)
 
   directories.walk do |file|
-    puts "Found file #{file}"
+    out_file = file
+      .sub(BASE_HTML_DIR, "")
+      .sub(".erb", "")
+
+    puts "Rendering #{file} to #{out_file}"
+
+    page = Page.new(file)
+    composer = Composer.new(outer: main_erb, inner: page)
+
+    writer = Writer.new(File::join(DIST_DIR, out_file))
+
+    writer.write(composer.render)
   end
 end
 
