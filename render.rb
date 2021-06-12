@@ -3,7 +3,7 @@ require 'fileutils'
 
 
 DIST_DIR = 'dist'
-BASE_HTML_DIR = 'src/views/html'
+BASE_HTML_DIR = 'views/html'
 ERB_REGEX = /.*\.erb/
 
 class Page
@@ -23,7 +23,7 @@ class Page
 end
 
 class MainHtml < Page
-  MAIN_ERB = 'src/views/main.html.erb'
+  MAIN_ERB = 'views/main.html.erb'
 
   def initialize(content: '', stylesheets: [], scripts: [])
     @content = content
