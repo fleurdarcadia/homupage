@@ -3,8 +3,15 @@ require 'fileutils'
 
 
 DIST_DIR = 'dist'
+
 BASE_HTML_DIR = 'views/html'
+BASE_CSS_DIR = 'views/css'
+BASE_JS_DIR = 'views/js'
+
 ERB_REGEX = /.*\.erb/
+CSS_REGEX = /.*\.css/
+JS_REGEX = /.*\.js/
+
 
 class Page
   attr_reader :src
@@ -97,8 +104,7 @@ class DirWalker
   end
 end
 
-
-def main
+def build_html_sources
   main_erb = MainHtml.new
 
   directories = DirWalker.new(BASE_HTML_DIR, ERB_REGEX)
@@ -111,7 +117,7 @@ def main
         .sub(".erb", "")
     )
 
-    puts "Rendering #{file} to #{out_file}"
+    puts "  * Rendering #{file} to #{out_file}"
 
     page = Page.new(file)
     composer = Composer.new(outer: main_erb, inner: page)
@@ -120,6 +126,25 @@ def main
 
     writer.write(composer.render)
   end
+end
+
+def build_css_sources
+  FileUtils.cp_r(BASE_CSS_DIR, File::join(DIST_DIR, 'css'))
+end
+
+def build_js_sources
+  FileUtils.cp_r(BASE_JS_DIR, File::join(DIST_DIR, 'js'))
+end
+
+def main
+  puts "Building HTML"
+  build_html_sources
+
+  puts "Building CSS"
+  build_css_sources
+
+  puts "Building JavaScript"
+  build_js_sources
 end
 
 
