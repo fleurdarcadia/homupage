@@ -1,3 +1,7 @@
+p {
+  size: 1.4em;
+}
+
 div#main {
   width: 60%;
   margin-left: auto;
@@ -9,7 +13,6 @@ ul#social-links {
 }
 
 ul#social-links li {
-  display: inline;
 }
 
 ul#social-links li a {
@@ -17,5 +20,5 @@ ul#social-links li a {
 }
 
 .lavender {
-  color: #998FB8;
+  color: #604878;
 }
