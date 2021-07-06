@@ -1,5 +1,5 @@
 p {
-  size: 1.4em;
+  font-size: 1.4em;
 }
 
 div#main {
@@ -13,6 +13,8 @@ ul#social-links {
 }
 
 ul#social-links li {
+  font-size: 1.4em;
+  margin-top: 8px;
 }
 
 ul#social-links li a {
