@@ -104,10 +104,12 @@ class DirWalker
   end
 end
 
-def build_html_sources
-  main_erb = MainHtml.new
+def build_html_sources(stylesheets: [], scripts: [])
+  main_erb = MainHtml.new(stylesheets: stylesheets, scripts: scripts)
 
   directories = DirWalker.new(BASE_HTML_DIR, ERB_REGEX)
+
+  pages = []
 
   directories.walk do |file|
     out_file = File::join(
@@ -116,6 +118,8 @@ def build_html_sources
         .sub(BASE_HTML_DIR, "")
         .sub(".erb", "")
     )
+
+    pages << out_file
 
     puts "  * Rendering #{file} to #{out_file}"
 
@@ -126,25 +130,39 @@ def build_html_sources
 
     writer.write(composer.render)
   end
+
+  pages
 end
 
 def build_css_sources
-  FileUtils.cp_r(BASE_CSS_DIR, File::join(DIST_DIR, 'css'))
+  FileUtils.cp_r(BASE_CSS_DIR, DIST_DIR)
+
+  sheets = []
+
+  DirWalker.new(File::join(DIST_DIR, "css")).walk { |file| sheets << file }
+
+  sheets
 end
 
 def build_js_sources
-  FileUtils.cp_r(BASE_JS_DIR, File::join(DIST_DIR, 'js'))
+  FileUtils.cp_r(BASE_JS_DIR, DIST_DIR)
+
+  scripts = []
+
+  DirWalker.new(File::join(DIST_DIR, "js")).walk { |file| scripts << file }
+
+  scripts
 end
 
 def main
-  puts "Building HTML"
-  build_html_sources
-
   puts "Building CSS"
-  build_css_sources
+  css = build_css_sources
 
   puts "Building JavaScript"
   build_js_sources
+  
+  puts "Building HTML"
+  build_html_sources
 end
 
 
